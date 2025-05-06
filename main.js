@@ -16,13 +16,20 @@ app.get('/api/data', async (req, res) => {
     const data = await fs.readFile(path.join(__dirname, './mock/data.json'), 'utf-8');
     res.status(200).json(JSON.parse(data));
   } catch (error) {
+    // 重定向请求到 /api/mock
+    res.redirect('/api/mock');
     res.status(500).send('Internal Server Error');
   }
 });
 
 app.get('/api/student', (req, res) => {  
+  // 渲染 ejs 模板，并传递数据，最后返回给浏览器
   res.render('student', { name: 'zhangsan', age: 25, stus:[{name: 'lisi', age: 22}, {name: 'wangwu', age: 23}] });
 });
+
+app.get('/api/mock', (req, res) => {  
+  res.status(200).json({ message: 'Mock data' });
+}); 
 
 app.use((req, res) => {
   res.status(404).send('Not Found');
