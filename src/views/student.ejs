@@ -1,0 +1,17 @@
+<body>
+    <h1>Hello EJS 哈哈</h1>
+    <!-- 
+		通过它可以将render传递进来的数据直接在网页中显示出来
+	-->
+    <%=name %>
+    <%=age %>
+    <% if(name === "孙悟空") {%>
+        <h2>大师兄来了</h2>
+    <%} else{%>
+        <h2>二师兄来了</h2>
+    <%}%>
+    
+    <% for(const stu of stus){%>
+        <%=stu.name %>
+    <%}%>
+</body>
