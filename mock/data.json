@@ -1,0 +1,22 @@
+{
+    "name": "John Doe",
+    "age": 30,
+    "city": "New York",
+    "isEmployed": true,
+    "skills": ["JavaScript", "Python", "Java"],
+    "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "state": "NY"
+    },
+    "projects": [
+        {
+        "name": "Project A",
+        "description": "Description of Project A"
+        },
+        {
+        "name": "Project B",
+        "description": "Description of Project B"
+        }
+    ]
+}
