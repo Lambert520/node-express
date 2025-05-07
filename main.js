@@ -1,6 +1,9 @@
 const cors = require('cors');
 const path = require('path');
-const fs = require('node:fs/promises');
+const DataRouter = require('./src/apis/data.js');
+const StudentRouter = require('./src/apis/student.js');
+const TeacherRouter = require('./src/apis/teacher.js');
+const LoginRouter = require('./src/apis/login.js');
 const express = require('express');
 const app = express();
 
@@ -8,30 +11,25 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views"));
 
 app.use(express.static(path.join(__dirname, 'public')));
+// 跨域处理
 app.use(cors());
+// 解析 POST 请求体，确保能正确解析 application/x-www-form-urlencoded 格式的请求体
+app.use(express.urlencoded({ extended: true }));
+// 解析 POST 请求体，确保能正确解析 application/json 格式的请求体
+app.use(express.json());
 
+// 中间件函数拦截指定请求
+app.use('/data', DataRouter);
 
-app.get('/api/data', async (req, res) => {      
-  try {
-    const data = await fs.readFile(path.join(__dirname, './mock/data.json'), 'utf-8');
-    res.status(200).json(JSON.parse(data));
-  } catch (error) {
-    // 重定向请求到 /api/mock
-    res.redirect('/api/mock');
-    res.status(500).send('Internal Server Error');
-  }
-});
+app.use('/student', StudentRouter);
 
-app.get('/api/student', (req, res) => {  
-  // 渲染 ejs 模板，并传递数据，最后返回给浏览器
-  res.render('student', { name: 'zhangsan', age: 25, stus:[{name: 'lisi', age: 22}, {name: 'wangwu', age: 23}] });
-});
+app.use('/teacher', TeacherRouter);
 
-app.get('/api/mock', (req, res) => {  
-  res.status(200).json({ message: 'Mock data' });
-}); 
+// 登录接口
+app.use('/login', LoginRouter);
 
-app.use((req, res) => {
+// 处理 404 错误
+app.use((_req, res) => {
   res.status(404).send('Not Found');
 });
 
