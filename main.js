@@ -1,12 +1,15 @@
+// 加载 .env 文件，将 .env 文件中的变量加载到 process.env 对象中
+require('dotenv').config();
 const cors = require('cors');
 const path = require('path');
 const DataRouter = require('./src/apis/data.js');
 const StudentRouter = require('./src/apis/student.js');
 const TeacherRouter = require('./src/apis/teacher.js');
 const LoginRouter = require('./src/apis/login.js');
+const StudentInfoRouter = require('./src/apis/database.js');
 const express = require('express');
-const app = express();
 
+const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views"));
 
@@ -24,6 +27,8 @@ app.use('/data', DataRouter);
 app.use('/student', StudentRouter);
 
 app.use('/teacher', TeacherRouter);
+
+app.use('/students', StudentInfoRouter);
 
 // 登录接口
 app.use('/login', LoginRouter);
