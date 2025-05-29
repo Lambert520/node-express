@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/delete/:id', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
   const { id } = req.params;
   db.query('DELETE FROM student WHERE id = ?', [id], (error, results) => {
     if (error) {
@@ -31,3 +31,14 @@ router.post('/insert', (req, res) => {
   });
 });
 module.exports = router;
+
+router.put('/update/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, age } = req.body;
+  db.query('UPDATE student SET name = ?, age = ? WHERE id = ?', [name, age, id], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: '数据库更新失败' });
+    }
+    res.json({ message: '学生信息更新成功' });
+  });
+});
